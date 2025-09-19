@@ -1,0 +1,730 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercices Formulaires et LocalStorage</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #333;
+        background-color: #f8f9fa;
+      }
+
+      h1,
+      h2 {
+        color: #2c3e50;
+      }
+
+      .exercise {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .instructions {
+        background-color: #e8f4fc;
+        padding: 15px;
+        border-left: 4px solid #3498db;
+        margin-bottom: 15px;
+      }
+
+      .code-area {
+        width: 100%;
+        min-height: 100px;
+        font-family: monospace;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+      }
+
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+        margin-right: 10px;
+        margin-bottom: 10px;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+
+      .solution {
+        display: none;
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-left: 4px solid #2ecc71;
+        overflow-x: auto;
+      }
+
+      .toggle-solution {
+        margin-top: 10px;
+        background-color: #2ecc71;
+      }
+
+      .toggle-solution:hover {
+        background-color: #27ae60;
+      }
+
+      .result {
+        margin-top: 15px;
+        padding: 10px;
+        border: 1px dashed #ccc;
+        border-radius: 4px;
+        min-height: 50px;
+        background-color: #f8f8f8;
+      }
+
+      pre {
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+
+      .form-group {
+        margin-bottom: 15px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: bold;
+      }
+
+      input[type="text"],
+      input[type="email"],
+      input[type="password"],
+      select,
+      textarea {
+        width: 100%;
+        padding: 8px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+      }
+
+      .user-card {
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        padding: 15px;
+        margin-bottom: 15px;
+        background-color: #f9f9f9;
+      }
+
+      .highlight {
+        background-color: yellow;
+        padding: 5px;
+      }
+
+      .error {
+        color: red;
+        font-size: 14px;
+        margin-top: 5px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Manipulation des Formulaires et LocalStorage</h1>
+    <p>
+      Cette page contient une série d'exercices pour explorer la manipulation
+      des formulaires et l'utilisation du localStorage.
+    </p>
+
+    <!-- Exercice 1 -->
+    <div class="exercise">
+      <h2>Exercice 1: Validation de formulaire</h2>
+      <div class="instructions">
+        <p>Créez un formulaire avec validation JavaScript :</p>
+        <ul>
+          <li>Un champ nom (obligatoire, minimum 2 caractères)</li>
+          <li>Un champ email (obligatoire, format email valide)</li>
+          <li>Un champ mot de passe (obligatoire, minimum 6 caractères)</li>
+          <li>Affichez des messages d'erreur spécifiques</li>
+          <li>Empêchez l'envoi du formulaire si validation échoue</li>
+        </ul>
+      </div>
+
+      <form id="user-form">
+        <div class="form-group">
+          <label for="name">Nom:</label>
+          <input type="text" id="name" name="name" />
+          <div id="name-error" class="error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">Email:</label>
+          <input type="email" id="email" name="email" />
+          <div id="email-error" class="error"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Mot de passe:</label>
+          <input type="password" id="password" name="password" />
+          <div id="password-error" class="error"></div>
+        </div>
+
+        <button type="submit">S'inscrire</button>
+      </form>
+
+      <div class="result" id="result1"></div>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution1')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution1">
+        <pre><code>// Validation du formulaire
+document.getElementById('user-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    let isValid = true;
+    
+    // Validation du nom
+    const name = document.getElementById('name').value;
+    const nameError = document.getElementById('name-error');
+    if (name.length < 2) {
+        nameError.textContent = 'Le nom doit contenir au moins 2 caractères';
+        isValid = false;
+    } else {
+        nameError.textContent = '';
+    }
+    
+    // Validation de l'email
+    const email = document.getElementById('email').value;
+    const emailError = document.getElementById('email-error');
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        emailError.textContent = 'Veuillez entrer un email valide';
+        isValid = false;
+    } else {
+        emailError.textContent = '';
+    }
+    
+    // Validation du mot de passe
+    const password = document.getElementById('password').value;
+    const passwordError = document.getElementById('password-error');
+    if (password.length < 6) {
+        passwordError.textContent = 'Le mot de passe doit contenir au moins 6 caractères';
+        isValid = false;
+    } else {
+        passwordError.textContent = '';
+    }
+    
+    if (isValid) {
+        document.getElementById('result1').textContent = 'Formulaire validé avec succès!';
+    }
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Exercice 2 -->
+    <div class="exercise">
+      <h2>Exercice 2: Sauvegarde dans le localStorage</h2>
+      <div class="instructions">
+        <p>Modifiez l'exercice 1 pour :</p>
+        <ul>
+          <li>
+            Sauvegarder les données du formulaire dans le localStorage lorsque
+            celui-ci est validé
+          </li>
+          <li>Afficher les données sauvegardées dans la zone de résultat</li>
+          <li>Vider le formulaire après la sauvegarde</li>
+        </ul>
+      </div>
+
+      <form id="user-form2">
+        <div class="form-group">
+          <label for="name2">Nom:</label>
+          <input type="text" id="name2" name="name" />
+        </div>
+
+        <div class="form-group">
+          <label for="email2">Email:</label>
+          <input type="email" id="email2" name="email" />
+        </div>
+
+        <div class="form-group">
+          <label for="password2">Mot de passe:</label>
+          <input type="password" id="password2" name="password" />
+        </div>
+
+        <button type="submit">Sauvegarder</button>
+      </form>
+
+      <div class="result" id="result2"></div>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution2')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution2">
+        <pre><code>document.getElementById('user-form2').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const user = {
+        name: document.getElementById('name2').value,
+        email: document.getElementById('email2').value,
+        password: document.getElementById('password2').value
+    };
+    
+    // Sauvegarde dans le localStorage
+    localStorage.setItem('userData', JSON.stringify(user));
+    
+    // Affichage des données sauvegardées
+    const savedUser = JSON.parse(localStorage.getItem('userData'));
+    document.getElementById('result2').innerHTML = `
+        Données sauvegardées:<br>
+        Nom: ${savedUser.name}<br>
+        Email: ${savedUser.email}<br>
+        Mot de passe: ${savedUser.password}
+    `;
+    
+    // Vider le formulaire
+    this.reset();
+});</code></pre>
+      </div>
+    </div>
+
+    <!-- Exercice 3 -->
+    <div class="exercise">
+      <h2>Exercice 3: Gestion d'une liste d'utilisateurs</h2>
+      <div class="instructions">
+        <p>Créez un système pour gérer une liste d'utilisateurs :</p>
+        <ul>
+          <li>Sauvegarder plusieurs utilisateurs dans le localStorage</li>
+          <li>Afficher la liste des utilisateurs</li>
+          <li>Pouvoir supprimer un utilisateur de la liste</li>
+        </ul>
+      </div>
+
+      <form id="user-list-form">
+        <div class="form-group">
+          <label for="user-name">Nom:</label>
+          <input type="text" id="user-name" required />
+        </div>
+
+        <div class="form-group">
+          <label for="user-email">Email:</label>
+          <input type="email" id="user-email" required />
+        </div>
+
+        <button type="submit">Ajouter l'utilisateur</button>
+      </form>
+
+      <h3>Liste des utilisateurs</h3>
+      <div id="user-list"></div>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution3')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution3">
+        <pre><code>// Charger les utilisateurs au démarrage
+document.addEventListener('DOMContentLoaded', loadUsers);
+
+// Gestion de l'ajout d'utilisateur
+document.getElementById('user-list-form').addEventListener('submit', function(e) {
+e.preventDefault();
+
+    const user = {
+        id: Date.now(), // ID unique basé sur le timestamp
+        name: document.getElementById('user-name').value,
+        email: document.getElementById('user-email').value
+    };
+
+    addUser(user);
+    this.reset();
+
+});
+
+function addUser(user) {
+let users = JSON.parse(localStorage.getItem('users')) || [];
+users.push(user);
+localStorage.setItem('users', JSON.stringify(users));
+displayUsers();
+}
+
+function loadUsers() {
+displayUsers();
+}
+
+function displayUsers() {
+const users = JSON.parse(localStorage.getItem('users')) || [];
+const userList = document.getElementById('user-list');
+
+    userList.innerHTML = '';
+
+    users.forEach(user => {
+        const userCard = document.createElement('div');
+        userCard.className = 'user-card';
+        userCard.innerHTML = `
+            <strong>${user.name}</strong> (${user.email})
+            <button onclick="deleteUser('${user.id}')">Supprimer</button>
+        `;
+        userList.appendChild(userCard);
+    });
+
+}
+
+function deleteUser(id) {
+let users = JSON.parse(localStorage.getItem('users')) || [];
+users = users.filter(user => user.id !== id);
+localStorage.setItem('users', JSON.stringify(users));
+displayUsers();
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Exercice 4 -->
+    <div class="exercise">
+      <h2>
+        Exercice 4: Préremplir un formulaire avec les données sauvegardées
+      </h2>
+      <div class="instructions">
+        <p>Créez un formulaire de profil qui :</p>
+        <ul>
+          <li>
+            Se préremplit avec les données du localStorage si elles existent
+          </li>
+          <li>Permet de mettre à jour les informations</li>
+          <li>Affiche un message de confirmation lors de la mise à jour</li>
+        </ul>
+      </div>
+
+      <form id="profile-form">
+        <div class="form-group">
+          <label for="profile-name">Nom:</label>
+          <input type="text" id="profile-name" name="name" />
+        </div>
+
+        <div class="form-group">
+          <label for="profile-age">Âge:</label>
+          <input type="number" id="profile-age" name="age" />
+        </div>
+
+        <div class="form-group">
+          <label for="profile-city">Ville:</label>
+          <input type="text" id="profile-city" name="city" />
+        </div>
+
+        <div class="form-group">
+          <label for="profile-bio">Bio:</label>
+          <textarea id="profile-bio" name="bio" rows="4"></textarea>
+        </div>
+
+        <button type="submit">Enregistrer le profil</button>
+      </form>
+
+      <div class="result" id="result4"></div>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution4')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution4">
+        <pre><code>// Charger le profil au démarrage
+
+document.addEventListener('DOMContentLoaded', loadProfile);
+
+// Sauvegarder le profil
+document.getElementById('profile-form').addEventListener('submit', function(e) {
+e.preventDefault();
+
+    const profile = {
+        name: document.getElementById('profile-name').value,
+        age: document.getElementById('profile-age').value,
+        city: document.getElementById('profile-city').value,
+        bio: document.getElementById('profile-bio').value
+    };
+
+    localStorage.setItem('userProfile', JSON.stringify(profile));
+
+    document.getElementById('result4').textContent = 'Profil enregistré avec succès!';
+
+});
+
+function loadProfile() {
+const savedProfile = JSON.parse(localStorage.getItem('userProfile'));
+
+    if (savedProfile) {
+        document.getElementById('profile-name').value = savedProfile.name || '';
+        document.getElementById('profile-age').value = savedProfile.age || '';
+        document.getElementById('profile-city').value = savedProfile.city || '';
+        document.getElementById('profile-bio').value = savedProfile.bio || '';
+    }
+
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Exercice 5 -->
+    <div class="exercise">
+      <h2>Exercice 5: Thème sombre/clair avec sauvegarde des préférences</h2>
+      <div class="instructions">
+        <p>Créez un sélecteur de thème qui :</p>
+        <ul>
+          <li>Permet de choisir entre un thème clair et un thème sombre</li>
+          <li>Sauvegarde la préférence dans le localStorage</li>
+          <li>Applique le thème sauvegardé au chargement de la page</li>
+        </ul>
+      </div>
+
+      <div class="form-group">
+        <label for="theme-selector">Choisissez un thème:</label>
+        <select id="theme-selector">
+          <option value="light">Thème clair</option>
+          <option value="dark">Thème sombre</option>
+        </select>
+      </div>
+
+      <button onclick="applyTheme()">Appliquer le thème</button>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution5')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution5">
+        <pre><code>// Appliquer le thème sauvegardé au chargement
+
+document.addEventListener('DOMContentLoaded', function() {
+const savedTheme = localStorage.getItem('theme') || 'light';
+document.getElementById('theme-selector').value = savedTheme;
+applyTheme(savedTheme);
+});
+
+function applyTheme() {
+const theme = document.getElementById('theme-selector').value;
+localStorage.setItem('theme', theme);
+
+    if (theme === 'dark') {
+        document.body.style.backgroundColor = '#333';
+        document.body.style.color = '#fff';
+        document.querySelectorAll('.exercise').forEach(el => {
+            el.style.backgroundColor = '#444';
+        });
+    } else {
+        document.body.style.backgroundColor = '#f8f9fa';
+        document.body.style.color = '#333';
+        document.querySelectorAll('.exercise').forEach(el => {
+            el.style.backgroundColor = 'white';
+        });
+    }
+
+}</code></pre>
+      </div>
+    </div>
+
+    <script>
+      // Exercice 1
+      document
+        .getElementById("user-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          let isValid = true;
+
+          // Validation du nom
+          const name = document.getElementById("name").value;
+          const nameError = document.getElementById("name-error");
+          if (name.length < 2) {
+            nameError.textContent =
+              "Le nom doit contenir au moins 2 caractères";
+            isValid = false;
+          } else {
+            nameError.textContent = "";
+          }
+
+          // Validation de l'email
+          const email = document.getElementById("email").value;
+          const emailError = document.getElementById("email-error");
+          const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+          if (!emailRegex.test(email)) {
+            emailError.textContent = "Veuillez entrer un email valide";
+            isValid = false;
+          } else {
+            emailError.textContent = "";
+          }
+
+          // Validation du mot de passe
+          const password = document.getElementById("password").value;
+          const passwordError = document.getElementById("password-error");
+          if (password.length < 6) {
+            passwordError.textContent =
+              "Le mot de passe doit contenir au moins 6 caractères";
+            isValid = false;
+          } else {
+            passwordError.textContent = "";
+          }
+
+          if (isValid) {
+            document.getElementById("result1").textContent =
+              "Formulaire validé avec succès!";
+          }
+        });
+
+      // Exercice 2
+      document
+        .getElementById("user-form2")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const user = {
+            name: document.getElementById("name2").value,
+            email: document.getElementById("email2").value,
+            password: document.getElementById("password2").value,
+          };
+
+          // Sauvegarde dans le localStorage
+          localStorage.setItem("userData", JSON.stringify(user));
+
+          // Affichage des données sauvegardées
+          const savedUser = JSON.parse(localStorage.getItem("userData"));
+          document.getElementById("result2").innerHTML = `
+                Données sauvegardées:<br>
+                Nom: ${savedUser.name}<br>
+                Email: ${savedUser.email}<br>
+                Mot de passe: ${savedUser.password}
+            `;
+
+          // Vider le formulaire
+          this.reset();
+        });
+
+      // Exercice 3
+      document.addEventListener("DOMContentLoaded", loadUsers);
+
+      document
+        .getElementById("user-list-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const user = {
+            id: Date.now(),
+            name: document.getElementById("user-name").value,
+            email: document.getElementById("user-email").value,
+          };
+
+          addUser(user);
+          this.reset();
+        });
+
+      function addUser(user) {
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        users.push(user);
+        localStorage.setItem("users", JSON.stringify(users));
+        displayUsers();
+      }
+
+      function loadUsers() {
+        displayUsers();
+      }
+
+      function displayUsers() {
+        const users = JSON.parse(localStorage.getItem("users")) || [];
+        const userList = document.getElementById("user-list");
+
+        userList.innerHTML = "";
+
+        users.forEach((user) => {
+          const userCard = document.createElement("div");
+          userCard.className = "user-card";
+          userCard.innerHTML = `
+                    <strong>${user.name}</strong> (${user.email})
+                    <button onclick="deleteUser(${user.id})">Supprimer</button>
+                `;
+          userList.appendChild(userCard);
+        });
+      }
+
+      function deleteUser(id) {
+        let users = JSON.parse(localStorage.getItem("users")) || [];
+        users = users.filter((user) => user.id !== id);
+        localStorage.setItem("users", JSON.stringify(users));
+        displayUsers();
+      }
+
+      // Exercice 4
+      document.addEventListener("DOMContentLoaded", loadProfile);
+
+      document
+        .getElementById("profile-form")
+        .addEventListener("submit", function (e) {
+          e.preventDefault();
+
+          const profile = {
+            name: document.getElementById("profile-name").value,
+            age: document.getElementById("profile-age").value,
+            city: document.getElementById("profile-city").value,
+            bio: document.getElementById("profile-bio").value,
+          };
+
+          localStorage.setItem("userProfile", JSON.stringify(profile));
+
+          document.getElementById("result4").textContent =
+            "Profil enregistré avec succès!";
+        });
+
+      function loadProfile() {
+        const savedProfile = JSON.parse(localStorage.getItem("userProfile"));
+
+        if (savedProfile) {
+          document.getElementById("profile-name").value =
+            savedProfile.name || "";
+          document.getElementById("profile-age").value = savedProfile.age || "";
+          document.getElementById("profile-city").value =
+            savedProfile.city || "";
+          document.getElementById("profile-bio").value = savedProfile.bio || "";
+        }
+      }
+
+      // Exercice 5
+      document.addEventListener("DOMContentLoaded", function () {
+        const savedTheme = localStorage.getItem("theme") || "light";
+        document.getElementById("theme-selector").value = savedTheme;
+        applyTheme(savedTheme);
+      });
+
+      function applyTheme() {
+        const theme = document.getElementById("theme-selector").value;
+        localStorage.setItem("theme", theme);
+
+        if (theme === "dark") {
+          document.body.style.backgroundColor = "#333";
+          document.body.style.color = "#fff";
+          document.querySelectorAll(".exercise").forEach((el) => {
+            el.style.backgroundColor = "#444";
+          });
+        } else {
+          document.body.style.backgroundColor = "#f8f9fa";
+          document.body.style.color = "#333";
+          document.querySelectorAll(".exercise").forEach((el) => {
+            el.style.backgroundColor = "white";
+          });
+        }
+      }
+
+      // Fonction pour afficher/masquer les solutions
+      function toggleSolution(id) {
+        const solution = document.getElementById(id);
+        solution.style.display =
+          solution.style.display === "block" ? "none" : "block";
+      }
+    </script>
+  </body>
+</html>
