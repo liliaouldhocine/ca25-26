@@ -1,0 +1,36 @@
+@import url("variables.css");
+@import url("utils.css");
+@import url("flex.css");
+@import url("template.css");
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-family);
+}
+
+header {
+  height: 120px;
+  background-color: var(--primary);
+}
+
+footer {
+  height: 80px;
+  background-color: var(--primary-dark);
+}
+
+.wrapper {
+  min-height: 100vh;
+}
+
+.content {
+  width: 800px;
+  background-color: var(--text-color-light);
+}
+
+.main {
+  background-color: var(--background-light);
+}

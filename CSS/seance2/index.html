@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Compétences Développement Web</title>
+    <style>
+      /* Variables CSS - Couches Settings et Tools d'ITCSS */
+      :root {
+        --color-primary: #2563eb;
+        --color-primary-dark: #1d4ed8;
+        --color-secondary: #475569;
+        --color-accent: #f59e0b;
+        --color-light: #f8fafc;
+        --color-dark: #1e293b;
+
+        --spacing-xs: 0.5rem;
+        --spacing-sm: 1rem;
+        --spacing-md: 1.5rem;
+        --spacing-lg: 2rem;
+        --spacing-xl: 3rem;
+
+        --border-radius: 0.5rem;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        --transition: all 0.3s ease;
+
+        --max-width: 1200px;
+      }
+
+      /* Generic - Reset et styles de base */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--color-dark);
+        background-color: var(--color-light);
+        padding: var(--spacing-sm);
+      }
+
+      img {
+        max-width: 100%;
+        height: auto;
+        display: block;
+      }
+
+      /* Elements - Styles pour les balises HTML de base */
+      h1,
+      h2,
+      h3,
+      h4 {
+        margin-bottom: var(--spacing-sm);
+        line-height: 1.2;
+        color: var(--color-primary);
+      }
+
+      p {
+        margin-bottom: var(--spacing-sm);
+      }
+
+      a {
+        color: var(--color-primary);
+        text-decoration: none;
+        transition: var(--transition);
+      }
+
+      a:hover {
+        color: var(--color-primary-dark);
+      }
+
+      /* Objects - Patterns réutilisables */
+      .o-container {
+        width: 100%;
+        max-width: var(--max-width);
+        margin: 0 auto;
+        padding: 0 var(--spacing-sm);
+      }
+
+      /* Components - Composants spécifiques avec BEM */
+      /* Header */
+      .c-header {
+        background: linear-gradient(
+          135deg,
+          var(--color-primary) 0%,
+          var(--color-primary-dark) 100%
+        );
+        color: white;
+        padding: var(--spacing-lg) 0;
+        margin-bottom: var(--spacing-xl);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+
+      .c-header__inner {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: var(--spacing-md);
+      }
+
+      .c-header__title {
+        font-size: 2.5rem;
+        color: white;
+      }
+
+      .c-header__subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+        max-width: 600px;
+      }
+
+      /* Navigation */
+      .c-nav {
+        background-color: white;
+        padding: var(--spacing-sm);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .c-nav__list {
+        display: flex;
+        justify-content: center;
+        list-style: none;
+        gap: var(--spacing-md);
+        flex-wrap: wrap;
+      }
+
+      .c-nav__link {
+        padding: var(--spacing-xs) var(--spacing-sm);
+        border-radius: var(--border-radius);
+        font-weight: 500;
+      }
+
+      .c-nav__link:hover {
+        background-color: var(--color-primary);
+        color: white;
+      }
+
+      /* Grid de compétences */
+      .c-skills {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: var(--spacing-md);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .c-skills__item {
+        background-color: white;
+        padding: var(--spacing-md);
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+        transition: var(--transition);
+      }
+
+      .c-skills__item:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+      }
+
+      .c-skills__icon {
+        font-size: 2.5rem;
+        color: var(--color-primary);
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .c-skills__title {
+        font-size: 1.5rem;
+        margin-bottom: var(--spacing-xs);
+      }
+
+      /* Section à deux colonnes */
+      .c-two-col {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-lg);
+        margin-bottom: var(--spacing-xl);
+      }
+
+      .c-two-col__content,
+      .c-two-col__image {
+        flex: 1;
+      }
+
+      .c-two-col__image img {
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+
+      /* Footer */
+      .c-footer {
+        background-color: var(--color-dark);
+        color: white;
+        padding: var(--spacing-lg) 0;
+        text-align: center;
+        border-radius: var(--border-radius);
+      }
+
+      .c-footer__content {
+        display: flex;
+        flex-direction: column;
+        gap: var(--spacing-md);
+      }
+
+      .c-footer__social {
+        display: flex;
+        justify-content: center;
+        gap: var(--spacing-md);
+      }
+
+      /* Utilities - Classes helpers */
+      .u-text-center {
+        text-align: center;
+      }
+
+      .u-mb-sm {
+        margin-bottom: var(--spacing-sm);
+      }
+
+      .u-mb-md {
+        margin-bottom: var(--spacing-md);
+      }
+
+      .u-mb-lg {
+        margin-bottom: var(--spacing-lg);
+      }
+
+      /* Media Queries - Approche mobile-first */
+      @media (min-width: 768px) {
+        .c-header__inner {
+          flex-direction: row;
+          justify-content: space-between;
+          text-align: left;
+        }
+
+        .c-skills {
+          grid-template-columns: repeat(2, 1fr);
+        }
+
+        .c-two-col {
+          flex-direction: row;
+          align-items: center;
+        }
+
+        .c-two-col--reverse {
+          flex-direction: row-reverse;
+        }
+      }
+
+      @media (min-width: 1024px) {
+        .c-skills {
+          grid-template-columns: repeat(3, 1fr);
+        }
+
+        .c-header__title {
+          font-size: 3rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="o-container">
+      <!-- Header -->
+      <header class="c-header">
+        <div class="c-header__inner o-container">
+          <div>
+            <h1 class="c-header__title">Développement Web Moderne</h1>
+            <p class="c-header__subtitle">
+              Découvrez les compétences et technologies essentielles pour créer
+              des sites web modernes et réactifs.
+            </p>
+          </div>
+        </div>
+      </header>
+
+      <!-- Navigation -->
+      <nav class="c-nav">
+        <ul class="c-nav__list">
+          <li><a href="#" class="c-nav__link">Accueil</a></li>
+          <li><a href="#" class="c-nav__link">Compétences</a></li>
+          <li><a href="#" class="c-nav__link">Projets</a></li>
+          <li><a href="#" class="c-nav__link">À propos</a></li>
+          <li><a href="#" class="c-nav__link">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- Section principale -->
+      <main>
+        <!-- Grille de compétences -->
+        <h2 class="u-text-center u-mb-lg">Compétences Essentielles</h2>
+        <div class="c-skills">
+          <div class="c-skills__item">
+            <div class="c-skills__icon">⚡</div>
+            <h3 class="c-skills__title">HTML5 Sémantique</h3>
+            <p>
+              Utilisation appropriée des balises sémantiques pour une structure
+              de page accessible et bien organisée.
+            </p>
+          </div>
+
+          <div class="c-skills__item">
+            <div class="c-skills__icon">🎨</div>
+            <h3 class="c-skills__title">CSS3 Modern</h3>
+            <p>
+              Flexbox, Grid, variables CSS et autres fonctionnalités modernes
+              pour des designs responsives et élégants.
+            </p>
+          </div>
+
+          <div class="c-skills__item">
+            <div class="c-skills__icon">🔄</div>
+            <h3 class="c-skills__title">Approche Mobile-First</h3>
+            <p>
+              Conception en commençant par les appareils mobiles puis adaptation
+              aux écrans plus larges.
+            </p>
+          </div>
+
+          <div class="c-skills__item">
+            <div class="c-skills__icon">🧩</div>
+            <h3 class="c-skills__title">Methodologie BEM</h3>
+            <p>
+              Organisation du CSS avec la convention Block-Element-Modifier pour
+              un code maintenable.
+            </p>
+          </div>
+
+          <div class="c-skills__item">
+            <div class="c-skills__icon">🚀</div>
+            <h3 class="c-skills__title">Performance</h3>
+            <p>
+              Optimisation du temps de chargement et de l'expérience utilisateur
+              avec des CSS efficaces.
+            </p>
+          </div>
+
+          <div class="c-skills__item">
+            <div class="c-skills__icon">♿</div>
+            <h3 class="c-skills__title">Accessibilité</h3>
+            <p>
+              Création d'interfaces utilisables par tous, quel que soit le
+              dispositif ou les capacités.
+            </p>
+          </div>
+        </div>
+
+        <!-- Section à deux colonnes -->
+        <section class="c-two-col u-mb-lg">
+          <div class="c-two-col__content">
+            <h2>Flexbox pour les layouts unidimensionnels</h2>
+            <p>
+              Flexbox est un modèle de layout CSS3 qui permet de concevoir des
+              structures réactives et fluides avec une distribution d'espace et
+              un alignement puissants.
+            </p>
+            <p>
+              Idéal pour les navigations, les barres d'outils, les galleries
+              d'images et tout composant qui nécessite un alignement sur un seul
+              axe.
+            </p>
+          </div>
+          <div class="c-two-col__image">
+            <img
+              src="https://placehold.co/600x400/2563eb/ffffff?text=Flexbox"
+              alt="Illustration Flexbox"
+            />
+          </div>
+        </section>
+
+        <section class="c-two-col c-two-col--reverse u-mb-lg">
+          <div class="c-two-col__content">
+            <h2>CSS Grid pour les layouts complexes</h2>
+            <p>
+              CSS Grid est un système de mise en page bidimensionnel qui offre
+              un contrôle précis sur les lignes et les colonnes.
+            </p>
+            <p>
+              Parfait pour créer des layouts complexes comme des grilles de
+              cartes, des tableaux de données avancés ou des mises en page de
+              magazines.
+            </p>
+          </div>
+          <div class="c-two-col__image">
+            <img
+              src="https://placehold.co/600x400/1d4ed8/ffffff?text=CSS+Grid"
+              alt="Illustration CSS Grid"
+            />
+          </div>
+        </section>
+      </main>
+
+      <!-- Footer -->
+      <footer class="c-footer">
+        <div class="c-footer__content o-container">
+          <p>&copy; 2023 Développement Web Moderne. Tous droits réservés.</p>
+          <div class="c-footer__social">
+            <a href="#">Twitter</a>
+            <a href="#">LinkedIn</a>
+            <a href="#">GitHub</a>
+            <a href="#">CodePen</a>
+          </div>
+        </div>
+      </footer>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Exercices d'exploration du DOM - Objet Window</title>
+    <style>
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 20px;
+        color: #333;
+        background-color: #f8f9fa;
+      }
+
+      h1,
+      h2 {
+        color: #2c3e50;
+      }
+
+      .exercise {
+        background-color: white;
+        border-radius: 8px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+      }
+
+      .instructions {
+        background-color: #e8f4fc;
+        padding: 15px;
+        border-left: 4px solid #3498db;
+        margin-bottom: 15px;
+      }
+
+      .code-area {
+        width: 100%;
+        min-height: 100px;
+        font-family: monospace;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        resize: vertical;
+      }
+
+      button {
+        background-color: #3498db;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s;
+      }
+
+      button:hover {
+        background-color: #2980b9;
+      }
+
+      .solution {
+        display: none;
+        margin-top: 20px;
+        padding: 15px;
+        background-color: #f9f9f9;
+        border-left: 4px solid #2ecc71;
+        overflow-x: auto;
+      }
+
+      .toggle-solution {
+        margin-top: 10px;
+        background-color: #2ecc71;
+      }
+
+      .toggle-solution:hover {
+        background-color: #27ae60;
+      }
+
+      .result {
+        margin-top: 15px;
+        padding: 10px;
+        border: 1px dashed #ccc;
+        border-radius: 4px;
+        min-height: 50px;
+        background-color: #f8f8f8;
+      }
+
+      pre {
+        background-color: #f5f5f5;
+        padding: 10px;
+        border-radius: 4px;
+        overflow-x: auto;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Exploration de l'objet Window en JavaScript</h1>
+    <p>
+      Cette page contient une série d'exercices pour explorer et comprendre
+      l'objet Window, les éléments du DOM et leurs attributs.
+    </p>
+
+    <!-- Exercice 1 -->
+    <div class="exercise">
+      <h2>Exercice 1: Propriétés de la fenêtre</h2>
+      <div class="instructions">
+        <p>
+          Affichez les propriétés suivantes de l'objet window dans la zone de
+          résultat :
+        </p>
+        <ul>
+          <li>
+            La largeur et la hauteur de la fenêtre (innerWidth et innerHeight)
+          </li>
+          <li>
+            Les coordonnées de la fenêtre par rapport à l'écran (screenX et
+            screenY)
+          </li>
+          <li>L'URL de la page actuelle (location.href)</li>
+        </ul>
+      </div>
+
+      <button onclick="exercise1()">Exécuter la solution</button>
+      <button class="toggle-solution" onclick="toggleSolution('solution1')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="result" id="result1"></div>
+
+      <div class="solution" id="solution1">
+        <pre><code>function exercise1() {
+    const result = document.getElementById('result1');
+    result.innerHTML = `
+        Largeur de la fenêtre: ${window.innerWidth}px<br>
+        Hauteur de la fenêtre: ${window.innerHeight}px<br>
+        Position X par rapport à l'écran: ${window.screenX}<br>
+        Position Y par rapport à l'écran: ${window.screenY}<br>
+        URL actuelle: ${window.location.href}
+    `;
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Exercice 2 -->
+    <div class="exercise">
+      <h2>Exercice 2: Méthodes de navigation</h2>
+      <div class="instructions">
+        <p>Créez des boutons pour :</p>
+        <ul>
+          <li>Ouvrir une nouvelle fenêtre (window.open)</li>
+          <li>Recharger la page (window.location.reload)</li>
+          <li>
+            Aller vers l'avant et l'arrière dans l'historique
+            (window.history.forward et window.history.back)
+          </li>
+        </ul>
+      </div>
+
+      <div>
+        <button onclick="openNewWindow()">Ouvrir une nouvelle fenêtre</button>
+        <button onclick="reloadPage()">Recharger la page</button>
+        <button onclick="goBack()">Page précédente</button>
+        <button onclick="goForward()">Page suivante</button>
+      </div>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution2')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution2">
+        <pre><code>function openNewWindow() {
+    window.open('https://www.example.com', '_blank', 'width=600,height=400');
+}
+
+function reloadPage() {
+    window.location.reload();
+}
+
+function goBack() {
+    window.history.back();
+}
+
+function goForward() {
+    window.history.forward();
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Exercice 3 -->
+    <div class="exercise">
+      <h2>Exercice 3: Timers et intervalles</h2>
+      <div class="instructions">
+        <p>Créez un minuteur qui :</p>
+        <ul>
+          <li>Affiche un compte à rebours de 10 secondes</li>
+          <li>Affiche un message quand le temps est écoulé</li>
+          <li>Permet de démarrer,暂停 et réinitialiser le minuteur</li>
+        </ul>
+      </div>
+
+      <div>
+        <p id="timer">10</p>
+        <button onclick="startTimer()">Démarrer</button>
+        <button onclick="pauseTimer()">暂停</button>
+        <button onclick="resetTimer()">Réinitialiser</button>
+      </div>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution3')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution3">
+        <pre><code>let timerValue = 10;
+let timerInterval;
+
+function startTimer() {
+    clearInterval(timerInterval);
+    timerInterval = setInterval(() => {
+        if (timerValue > 0) {
+            timerValue--;
+            document.getElementById('timer').textContent = timerValue;
+        } else {
+            clearInterval(timerInterval);
+            alert("Temps écoulé !");
+        }
+    }, 1000);
+}
+
+function pauseTimer() {
+    clearInterval(timerInterval);
+}
+
+function resetTimer() {
+    clearInterval(timerInterval);
+    timerValue = 10;
+    document.getElementById('timer').textContent = timerValue;
+}</code></pre>
+      </div>
+    </div>
+
+    <!-- Exercice 4 -->
+    <div class="exercise">
+      <h2>Exercice 4: Manipulation des éléments du DOM</h2>
+      <div class="instructions">
+        <p>Créez une fonction qui :</p>
+        <ul>
+          <li>Change le texte d'un paragraphe</li>
+          <li>Modifie le style d'un élément (couleur, taille de police)</li>
+          <li>Ajoute et supprime des classes CSS</li>
+        </ul>
+      </div>
+
+      <div>
+        <p id="text-to-change">Ceci est un texte à modifier.</p>
+        <button onclick="changeText()">Changer le texte</button>
+        <button onclick="changeStyle()">Changer le style</button>
+        <button onclick="toggleClass()">Ajouter/Supprimer classe</button>
+      </div>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution4')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution4">
+        <pre><code>function changeText() {
+    const element = document.getElementById('text-to-change');
+    element.textContent = "Le texte a été modifié avec succès!";
+}
+
+function changeStyle() {
+    const element = document.getElementById('text-to-change');
+    element.style.color = 'red';
+    element.style.fontSize = '20px';
+}
+
+function toggleClass() {
+    const element = document.getElementById('text-to-change');
+    element.classList.toggle('highlight');
+}
+
+// Ajouter ce style dans la balise style:
+// .highlight { background-color: yellow; padding: 5px; }</code></pre>
+      </div>
+    </div>
+
+    <!-- Exercice 5 -->
+    <div class="exercise">
+      <h2>Exercice 5: Gestion des événements</h2>
+      <div class="instructions">
+        <p>Créez des gestionnaires d'événements pour :</p>
+        <ul>
+          <li>Détecter le redimensionnement de la fenêtre</li>
+          <li>Détecter le défilement de la page</li>
+          <li>Afficher les coordonnées de la souris lorsqu'elle se déplace</li>
+        </ul>
+      </div>
+
+      <div>
+        <p id="window-size">Taille de la fenêtre:</p>
+        <p id="scroll-position">Position de défilement:</p>
+        <p id="mouse-position">Position de la souris:</p>
+      </div>
+
+      <button class="toggle-solution" onclick="toggleSolution('solution5')">
+        Afficher/Masquer la solution
+      </button>
+
+      <div class="solution" id="solution5">
+        <pre><code>// Au chargement de la page
+window.addEventListener('load', () => {
+    // Événement de redimensionnement
+    window.addEventListener('resize', () => {
+        document.getElementById('window-size').textContent = 
+            `Taille de la fenêtre: ${window.innerWidth}x${window.innerHeight}`;
+    });
+    
+    // Événement de défilement
+    window.addEventListener('scroll', () => {
+        document.getElementById('scroll-position').textContent = 
+            `Position de défilement: ${window.scrollY}px`;
+    });
+    
+    // Événement de mouvement de souris
+    document.addEventListener('mousemove', (e) => {
+        document.getElementById('mouse-position').textContent = 
+            `Position de la souris: X=${e.clientX}, Y=${e.clientY}`;
+    });
+});</code></pre>
+      </div>
+    </div>
+
+    <script>
+      // Exercice 1
+      function exercise1() {
+        const result = document.getElementById("result1");
+        result.innerHTML = `
+                Largeur de la fenêtre: ${window.innerWidth}px<br>
+                Hauteur de la fenêtre: ${window.innerHeight}px<br>
+                Position X par rapport à l'écran: ${window.screenX}<br>
+                Position Y par rapport à l'écran: ${window.screenY}<br>
+                URL actuelle: ${window.location.href}
+            `;
+      }
+
+      // Exercice 2
+      function openNewWindow() {
+        window.open(
+          "https://www.example.com",
+          "_blank",
+          "width=600,height=400"
+        );
+      }
+
+      function reloadPage() {
+        window.location.reload();
+      }
+
+      function goBack() {
+        window.history.back();
+      }
+
+      function goForward() {
+        window.history.forward();
+      }
+
+      // Exercice 3
+      let timerValue = 10;
+      let timerInterval;
+
+      function startTimer() {
+        clearInterval(timerInterval);
+        timerInterval = setInterval(() => {
+          if (timerValue > 0) {
+            timerValue--;
+            document.getElementById("timer").textContent = timerValue;
+          } else {
+            clearInterval(timerInterval);
+            alert("Temps écoulé !");
+          }
+        }, 1000);
+      }
+
+      function pauseTimer() {
+        clearInterval(timerInterval);
+      }
+
+      function resetTimer() {
+        clearInterval(timerInterval);
+        timerValue = 10;
+        document.getElementById("timer").textContent = timerValue;
+      }
+
+      // Exercice 4
+      function changeText() {
+        const element = document.getElementById("text-to-change");
+        element.textContent = "Le texte a été modifié avec succès!";
+      }
+
+      function changeStyle() {
+        const element = document.getElementById("text-to-change");
+        element.style.color = "red";
+        element.style.fontSize = "20px";
+      }
+
+      function toggleClass() {
+        const element = document.getElementById("text-to-change");
+        element.classList.toggle("highlight");
+      }
+
+      // Exercice 5
+      window.addEventListener("load", () => {
+        // Mettre à jour initialement
+        document.getElementById(
+          "window-size"
+        ).textContent = `Taille de la fenêtre: ${window.innerWidth}x${window.innerHeight}`;
+
+        document.getElementById(
+          "scroll-position"
+        ).textContent = `Position de défilement: ${window.scrollY}px`;
+
+        // Événement de redimensionnement
+        window.addEventListener("resize", () => {
+          document.getElementById(
+            "window-size"
+          ).textContent = `Taille de la fenêtre: ${window.innerWidth}x${window.innerHeight}`;
+        });
+
+        // Événement de défilement
+        window.addEventListener("scroll", () => {
+          document.getElementById(
+            "scroll-position"
+          ).textContent = `Position de défilement: ${window.scrollY}px`;
+        });
+
+        // Événement de mouvement de souris
+        document.addEventListener("mousemove", (e) => {
+          document.getElementById(
+            "mouse-position"
+          ).textContent = `Position de la souris: X=${e.clientX}, Y=${e.clientY}`;
+        });
+      });
+
+      // Fonction pour afficher/masquer les solutions
+      function toggleSolution(id) {
+        const solution = document.getElementById(id);
+        solution.style.display =
+          solution.style.display === "block" ? "none" : "block";
+      }
+    </script>
+  </body>
+</html>

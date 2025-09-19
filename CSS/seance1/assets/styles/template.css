@@ -1,0 +1,12 @@
+header {
+  h1 {
+    padding: 0 15px;
+  }
+  ul {
+    padding: 0 15px;
+    li {
+      margin: 0 10px;
+      display: inline-block;
+    }
+  }
+}

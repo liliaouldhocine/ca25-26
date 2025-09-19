@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guide Complet du CSS Grid</title>
+    <style>
+      /* Variables et reset */
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1e40af;
+        --secondary: #f1f5f9;
+        --accent: #f59e0b;
+        --text: #1e293b;
+        --light: #f8fafc;
+        --spacing: 1rem;
+        --border-radius: 8px;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--text);
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        min-height: 100vh;
+        padding: var(--spacing);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--spacing);
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+
+      h1 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        color: var(--primary-dark);
+        margin: 1.5rem 0 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--accent);
+      }
+
+      h3 {
+        color: var(--primary);
+        margin: 1.2rem 0 0.8rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      /* Conteneur grid de base */
+      .grid-container {
+        display: grid;
+        background-color: var(--secondary);
+        padding: var(--spacing);
+        border-radius: var(--border-radius);
+        margin-bottom: 2rem;
+        min-height: 200px;
+        box-shadow: var(--shadow);
+        gap: 10px;
+      }
+
+      /* Éléments grid */
+      .grid-item {
+        background-color: var(--primary);
+        color: white;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        text-align: center;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .grid-item:nth-child(2n) {
+        background-color: var(--primary-dark);
+      }
+
+      .grid-item:nth-child(3n) {
+        background-color: var(--accent);
+      }
+
+      /* Contrôles interactifs */
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+        background: white;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+
+      .control-group {
+        margin-bottom: 1rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      select,
+      input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        font-family: inherit;
+      }
+
+      .code-example {
+        background-color: #1e293b;
+        color: #f1f5f9;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        margin: 1rem 0;
+        overflow-x: auto;
+        font-family: "Consolas", monospace;
+      }
+
+      .highlight {
+        color: #f59e0b;
+      }
+
+      .example {
+        background: white;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow);
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 2rem;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+
+      .grid-visual {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1rem;
+        margin: 1rem 0;
+      }
+
+      .visual-item {
+        background: var(--secondary);
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        text-align: center;
+      }
+
+      @media (max-width: 768px) {
+        .controls {
+          grid-template-columns: 1fr;
+        }
+
+        .grid-visual {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Guide Complet du CSS Grid</h1>
+        <p>
+          Apprenez progressivement à utiliser CSS Grid à travers des exemples
+          interactifs
+        </p>
+      </header>
+
+      <section class="example">
+        <h2>1. Qu'est-ce que CSS Grid ?</h2>
+        <p>
+          CSS Grid est un système de mise en page bidimensionnel conçu pour le
+          web. Il vous permet de diviser une page en régions principales ou de
+          définir des relations en termes de taille, position et couche entre
+          éléments HTML.
+        </p>
+
+        <div class="code-example">
+          <span class="highlight">.conteneur</span> {<br />
+          &nbsp;&nbsp;display: <span class="highlight">grid</span>;<br />
+          }
+        </div>
+
+        <p>
+          Cette simple déclaration transforme un élément en conteneur grid et
+          ses enfants directs en éléments grid.
+        </p>
+      </section>
+
+      <section class="example">
+        <h2>2. Conteneur Grid et Éléments Grid</h2>
+        <p>
+          Le système Grid se compose de deux types d'éléments : le conteneur
+          grid (parent) et les éléments grid (enfants).
+        </p>
+
+        <div class="grid-container" id="basicGrid">
+          <div class="grid-item">1</div>
+          <div class="grid-item">2</div>
+          <div class="grid-item">3</div>
+          <div class="grid-item">4</div>
+          <div class="grid-item">5</div>
+          <div class="grid-item">6</div>
+        </div>
+
+        <div class="code-example">
+          <span class="highlight">&lt;div class="conteneur"&gt;</span><br />
+          &nbsp;&nbsp;&lt;div class="item"&gt;1&lt;/div&gt;<br />
+          &nbsp;&nbsp;&lt;div class="item"&gt;2&lt;/div&gt;<br />
+          &nbsp;&nbsp;&lt;div class="item"&gt;3&lt;/div&gt;<br />
+          <span class="highlight">&lt;/div&gt;</span>
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>3. Définir les colonnes et lignes (grid-template-columns/rows)</h2>
+        <p>
+          Les propriétés <code>grid-template-columns</code> et
+          <code>grid-template-rows</code> définissent les colonnes et lignes du
+          grid.
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="gridColumns">grid-template-columns:</label>
+            <select id="gridColumns">
+              <option value="none">none (par défaut)</option>
+              <option value="100px 100px 100px">100px 100px 100px</option>
+              <option value="repeat(3, 1fr)">repeat(3, 1fr)</option>
+              <option value="1fr 2fr 1fr">1fr 2fr 1fr</option>
+              <option value="repeat(auto-fit, minmax(100px, 1fr))">
+                repeat(auto-fit, minmax(100px, 1fr))
+              </option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="gridRows">grid-template-rows:</label>
+            <select id="gridRows">
+              <option value="none">none (par défaut)</option>
+              <option value="50px 100px">50px 100px</option>
+              <option value="repeat(2, 1fr)">repeat(2, 1fr)</option>
+              <option value="100px auto">100px auto</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="grid-container" id="templateExample">
+          <div class="grid-item">1</div>
+          <div class="grid-item">2</div>
+          <div class="grid-item">3</div>
+          <div class="grid-item">4</div>
+          <div class="grid-item">5</div>
+          <div class="grid-item">6</div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: grid;<br />
+          &nbsp;&nbsp;grid-template-columns:
+          <span id="columnsCode">none</span>;<br />
+          &nbsp;&nbsp;grid-template-rows: <span id="rowsCode">none</span>;<br />
+          }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>4. Espacement entre les éléments (gap)</h2>
+        <p>
+          La propriété <code>gap</code> définit l'espacement entre les lignes et
+          les colonnes.
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="gridGap">gap:</label>
+            <select id="gridGap">
+              <option value="0">0 (par défaut)</option>
+              <option value="10px" selected>10px</option>
+              <option value="20px">20px</option>
+              <option value="1rem">1rem</option>
+              <option value="20px 10px">20px 10px (row column)</option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          class="grid-container"
+          id="gapExample"
+          style="grid-template-columns: repeat(3, 1fr)"
+        >
+          <div class="grid-item">1</div>
+          <div class="grid-item">2</div>
+          <div class="grid-item">3</div>
+          <div class="grid-item">4</div>
+          <div class="grid-item">5</div>
+          <div class="grid-item">6</div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: grid;<br />
+          &nbsp;&nbsp;grid-template-columns: repeat(3, 1fr);<br />
+          &nbsp;&nbsp;gap: <span id="gapCode">10px</span>;<br />
+          }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>5. Placement des éléments (grid-column et grid-row)</h2>
+        <p>
+          Les propriétés <code>grid-column</code> et
+          <code>grid-row</code> permettent de positionner les éléments sur des
+          lignes spécifiques.
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="itemColumn">Element 1 - grid-column:</label>
+            <select id="itemColumn">
+              <option value="auto">auto (par défaut)</option>
+              <option value="1 / 3">1 / 3 (s'étend de la ligne 1 à 3)</option>
+              <option value="1 / span 2">
+                1 / span 2 (s'étend sur 2 colonnes)
+              </option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="itemRow">Element 1 - grid-row:</label>
+            <select id="itemRow">
+              <option value="auto">auto (par défaut)</option>
+              <option value="1 / 3">1 / 3 (s'étend de la ligne 1 à 3)</option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          class="grid-container"
+          id="placementExample"
+          style="grid-template-columns: repeat(3, 1fr)"
+        >
+          <div class="grid-item" id="placedItem">1</div>
+          <div class="grid-item">2</div>
+          <div class="grid-item">3</div>
+          <div class="grid-item">4</div>
+          <div class="grid-item">5</div>
+          <div class="grid-item">6</div>
+        </div>
+
+        <div class="code-example">
+          .item1 {<br />
+          &nbsp;&nbsp;grid-column: <span id="columnCode">auto</span>;<br />
+          &nbsp;&nbsp;grid-row: <span id="rowCode">auto</span>;<br />
+          }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>6. Zones de grid (grid-template-areas)</h2>
+        <p>
+          La propriété <code>grid-template-areas</code> permet de nommer des
+          zones dans le grid et d'y placer les éléments.
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="gridAreas">grid-template-areas:</label>
+            <select id="gridAreas">
+              <option value="none">none (par défaut)</option>
+              <option
+                value="'header header header' 'sidebar content content' 'footer footer footer'"
+              >
+                Header, sidebar, content, footer
+              </option>
+              <option value="'a b c' 'd e f' 'g h i'">3x3 grid named</option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          class="grid-container"
+          id="areasExample"
+          style="grid-template-columns: repeat(3, 1fr)"
+        >
+          <div class="grid-item" style="grid-area: header">Header</div>
+          <div class="grid-item" style="grid-area: sidebar">Sidebar</div>
+          <div class="grid-item" style="grid-area: content">Content</div>
+          <div class="grid-item" style="grid-area: footer">Footer</div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: grid;<br />
+          &nbsp;&nbsp;grid-template-columns: repeat(3, 1fr);<br />
+          &nbsp;&nbsp;grid-template-areas:
+          <span id="areasCode">none</span>;<br />
+          }<br /><br />
+          .header { grid-area: header; }<br />
+          .sidebar { grid-area: sidebar; }<br />
+          .content { grid-area: content; }<br />
+          .footer { grid-area: footer; }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>7. Alignement dans le grid (align-items, justify-items)</h2>
+        <p>
+          Les propriétés d'alignement contrôlent le positionnement des éléments
+          à l'intérieur de leur cellule grid.
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="alignItems">align-items:</label>
+            <select id="alignItems">
+              <option value="stretch">stretch (par défaut)</option>
+              <option value="start">start</option>
+              <option value="center">center</option>
+              <option value="end">end</option>
+            </select>
+          </div>
+          <div class="control-group">
+            <label for="justifyItems">justify-items:</label>
+            <select id="justifyItems">
+              <option value="stretch">stretch (par défaut)</option>
+              <option value="start">start</option>
+              <option value="center">center</option>
+              <option value="end">end</option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          class="grid-container"
+          id="alignmentExample"
+          style="grid-template-columns: repeat(3, 1fr); height: 200px"
+        >
+          <div class="grid-item">1</div>
+          <div class="grid-item">2</div>
+          <div class="grid-item">3</div>
+          <div class="grid-item">4</div>
+          <div class="grid-item">5</div>
+          <div class="grid-item">6</div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: grid;<br />
+          &nbsp;&nbsp;grid-template-columns: repeat(3, 1fr);<br />
+          &nbsp;&nbsp;align-items: <span id="alignCode">stretch</span>;<br />
+          &nbsp;&nbsp;justify-items:
+          <span id="justifyCode">stretch</span>;<br />
+          }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>8. Exemple pratique : Mise en page complète</h2>
+        <p>
+          Voici un exemple pratique d'une mise en page complète utilisant CSS
+          Grid :
+        </p>
+
+        <div
+          class="grid-container"
+          style="
+            grid-template-columns: 1fr 3fr;
+            grid-template-rows: 80px 1fr 80px;
+            grid-template-areas:
+              'header header'
+              'sidebar content'
+              'footer footer';
+            height: 400px;
+            gap: 15px;
+          "
+        >
+          <div
+            class="grid-item"
+            style="grid-area: header; background-color: #3b82f6"
+          >
+            Header
+          </div>
+          <div
+            class="grid-item"
+            style="grid-area: sidebar; background-color: #ef4444"
+          >
+            Sidebar
+          </div>
+          <div
+            class="grid-item"
+            style="grid-area: content; background-color: #10b981"
+          >
+            Content
+          </div>
+          <div
+            class="grid-item"
+            style="grid-area: footer; background-color: #f59e0b"
+          >
+            Footer
+          </div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: grid;<br />
+          &nbsp;&nbsp;grid-template-columns: 1fr 3fr;<br />
+          &nbsp;&nbsp;grid-template-rows: 80px 1fr 80px;<br />
+          &nbsp;&nbsp;grid-template-areas: <br />
+          &nbsp;&nbsp;&nbsp;&nbsp;'header header'<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;'sidebar content'<br />
+          &nbsp;&nbsp;&nbsp;&nbsp;'footer footer';<br />
+          &nbsp;&nbsp;gap: 15px;<br />
+          &nbsp;&nbsp;height: 400px;<br />
+          }<br /><br />
+          .header { grid-area: header; }<br />
+          .sidebar { grid-area: sidebar; }<br />
+          .content { grid-area: content; }<br />
+          .footer { grid-area: footer; }
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          CSS Grid est un outil extrêmement puissant pour créer des layouts
+          complexes et responsives. Pratiquez ces concepts pour les maîtriser !
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      // Mise à jour en temps réel des exemples
+      document
+        .getElementById("gridColumns")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("templateExample").style.gridTemplateColumns =
+            value;
+          document.getElementById("columnsCode").textContent = value;
+        });
+
+      document
+        .getElementById("gridRows")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("templateExample").style.gridTemplateRows =
+            value;
+          document.getElementById("rowsCode").textContent = value;
+        });
+
+      document
+        .getElementById("gridGap")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("gapExample").style.gap = value;
+          document.getElementById("gapCode").textContent = value;
+        });
+
+      document
+        .getElementById("itemColumn")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("placedItem").style.gridColumn = value;
+          document.getElementById("columnCode").textContent = value;
+        });
+
+      document
+        .getElementById("itemRow")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("placedItem").style.gridRow = value;
+          document.getElementById("rowCode").textContent = value;
+        });
+
+      document
+        .getElementById("gridAreas")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("areasExample").style.gridTemplateAreas =
+            value;
+          document.getElementById("areasCode").textContent = value;
+        });
+
+      document
+        .getElementById("alignItems")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("alignmentExample").style.alignItems = value;
+          document.getElementById("alignCode").textContent = value;
+        });
+
+      document
+        .getElementById("justifyItems")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("alignmentExample").style.justifyItems =
+            value;
+          document.getElementById("justifyCode").textContent = value;
+        });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Guide Complet de Flexbox</title>
+    <style>
+      /* Variables et reset */
+      :root {
+        --primary: #2563eb;
+        --primary-dark: #1e40af;
+        --secondary: #f1f5f9;
+        --accent: #f59e0b;
+        --text: #1e293b;
+        --light: #f8fafc;
+        --spacing: 1rem;
+        --border-radius: 8px;
+        --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+      }
+
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        line-height: 1.6;
+        color: var(--text);
+        background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+        min-height: 100vh;
+        padding: var(--spacing);
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: var(--spacing);
+      }
+
+      header {
+        text-align: center;
+        margin-bottom: 2rem;
+        padding: 2rem;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+
+      h1 {
+        color: var(--primary);
+        margin-bottom: 1rem;
+        font-size: 2.5rem;
+      }
+
+      h2 {
+        color: var(--primary-dark);
+        margin: 1.5rem 0 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--accent);
+      }
+
+      h3 {
+        color: var(--primary);
+        margin: 1.2rem 0 0.8rem;
+      }
+
+      p {
+        margin-bottom: 1rem;
+      }
+
+      /* Conteneur flex de base */
+      .flex-container {
+        display: flex;
+        background-color: var(--secondary);
+        padding: var(--spacing);
+        border-radius: var(--border-radius);
+        margin-bottom: 2rem;
+        min-height: 200px;
+        box-shadow: var(--shadow);
+      }
+
+      /* Éléments flex */
+      .item {
+        background-color: var(--primary);
+        color: white;
+        padding: 1rem;
+        margin: 0.5rem;
+        border-radius: var(--border-radius);
+        text-align: center;
+        min-width: 80px;
+      }
+
+      .item:nth-child(2n) {
+        background-color: var(--primary-dark);
+      }
+
+      .item:nth-child(3n) {
+        background-color: var(--accent);
+      }
+
+      /* Contrôles interactifs */
+      .controls {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 1rem;
+        margin-bottom: 2rem;
+        background: white;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+
+      .control-group {
+        margin-bottom: 1rem;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 0.5rem;
+        font-weight: 500;
+      }
+
+      select,
+      input {
+        width: 100%;
+        padding: 0.5rem;
+        border: 1px solid #cbd5e1;
+        border-radius: 4px;
+        font-family: inherit;
+      }
+
+      .code-example {
+        background-color: #1e293b;
+        color: #f1f5f9;
+        padding: 1rem;
+        border-radius: var(--border-radius);
+        margin: 1rem 0;
+        overflow-x: auto;
+        font-family: "Consolas", monospace;
+      }
+
+      .highlight {
+        color: #f59e0b;
+      }
+
+      .example {
+        background: white;
+        padding: 1.5rem;
+        border-radius: var(--border-radius);
+        margin-bottom: 2rem;
+        box-shadow: var(--shadow);
+      }
+
+      footer {
+        text-align: center;
+        margin-top: 3rem;
+        padding: 2rem;
+        background: white;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow);
+      }
+
+      @media (max-width: 768px) {
+        .controls {
+          grid-template-columns: 1fr;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <header>
+        <h1>Guide Complet de Flexbox</h1>
+        <p>
+          Apprenez progressivement à utiliser Flexbox à travers des exemples
+          interactifs
+        </p>
+      </header>
+
+      <section class="example">
+        <h2>1. Qu'est-ce que Flexbox ?</h2>
+        <p>
+          Flexbox est un modèle de mise en page CSS conçu pour créer des designs
+          responsives plus efficacement. Il permet de distribuer l'espace et
+          aligner des éléments dans un conteneur, même lorsque leur taille est
+          inconnue ou dynamique.
+        </p>
+
+        <div class="code-example">
+          <span class="highlight">.conteneur</span> {<br />
+          &nbsp;&nbsp;display: <span class="highlight">flex</span>;<br />
+          }
+        </div>
+
+        <p>
+          Cette simple déclaration transforme un élément en conteneur flex et
+          ses enfants directs en éléments flex.
+        </p>
+      </section>
+
+      <section class="example">
+        <h2>2. Conteneur Flex et Éléments Flex</h2>
+        <p>
+          Le système Flexbox se compose de deux types d'éléments : le conteneur
+          flex (parent) et les éléments flex (enfants).
+        </p>
+
+        <div class="flex-container" id="basicFlex">
+          <div class="item">1</div>
+          <div class="item">2</div>
+          <div class="item">3</div>
+          <div class="item">4</div>
+          <div class="item">5</div>
+        </div>
+
+        <div class="code-example">
+          <span class="highlight">&lt;div class="conteneur"&gt;</span><br />
+          &nbsp;&nbsp;&lt;div class="item"&gt;1&lt;/div&gt;<br />
+          &nbsp;&nbsp;&lt;div class="item"&gt;2&lt;/div&gt;<br />
+          &nbsp;&nbsp;&lt;div class="item"&gt;3&lt;/div&gt;<br />
+          <span class="highlight">&lt;/div&gt;</span>
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>3. Direction des éléments (flex-direction)</h2>
+        <p>
+          La propriété <code>flex-direction</code> définit la direction
+          principale selon laquelle les éléments sont placés dans le conteneur.
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="flexDirection">flex-direction:</label>
+            <select id="flexDirection">
+              <option value="row">row (par défaut)</option>
+              <option value="row-reverse">row-reverse</option>
+              <option value="column">column</option>
+              <option value="column-reverse">column-reverse</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex-container" id="flexDirectionExample">
+          <div class="item">1</div>
+          <div class="item">2</div>
+          <div class="item">3</div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: flex;<br />
+          &nbsp;&nbsp;flex-direction: <span id="directionCode">row</span>;<br />
+          }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>4. Répartition des éléments (justify-content)</h2>
+        <p>
+          La propriété <code>justify-content</code> définit l'alignement le long
+          de l'axe principal. Elle permet de distribuer l'espace entre et autour
+          des éléments.
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="justifyContent">justify-content:</label>
+            <select id="justifyContent">
+              <option value="flex-start">flex-start (par défaut)</option>
+              <option value="flex-end">flex-end</option>
+              <option value="center">center</option>
+              <option value="space-between">space-between</option>
+              <option value="space-around">space-around</option>
+              <option value="space-evenly">space-evenly</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex-container" id="justifyContentExample">
+          <div class="item">1</div>
+          <div class="item">2</div>
+          <div class="item">3</div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: flex;<br />
+          &nbsp;&nbsp;justify-content:
+          <span id="justifyCode">flex-start</span>;<br />
+          }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>5. Alignement vertical (align-items)</h2>
+        <p>
+          La propriété <code>align-items</code> définit l'alignement des
+          éléments le long de l'axe secondaire (perpendiculaire à l'axe
+          principal).
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="alignItems">align-items:</label>
+            <select id="alignItems">
+              <option value="stretch">stretch (par défaut)</option>
+              <option value="flex-start">flex-start</option>
+              <option value="flex-end">flex-end</option>
+              <option value="center">center</option>
+              <option value="baseline">baseline</option>
+            </select>
+          </div>
+        </div>
+
+        <div
+          class="flex-container"
+          id="alignItemsExample"
+          style="height: 200px"
+        >
+          <div class="item">1</div>
+          <div class="item" style="padding: 1.5rem">2</div>
+          <div class="item">3</div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: flex;<br />
+          &nbsp;&nbsp;align-items: <span id="alignCode">stretch</span>;<br />
+          }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>6. Gestion du passage à la ligne (flex-wrap)</h2>
+        <p>
+          Par défaut, les éléments flex essaient de tenir sur une seule ligne.
+          La propriété <code>flex-wrap</code> permet de changer ce comportement.
+        </p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="flexWrap">flex-wrap:</label>
+            <select id="flexWrap">
+              <option value="nowrap">nowrap (par défaut)</option>
+              <option value="wrap">wrap</option>
+              <option value="wrap-reverse">wrap-reverse</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="flex-container" id="flexWrapExample">
+          <div class="item">1</div>
+          <div class="item">2</div>
+          <div class="item">3</div>
+          <div class="item">4</div>
+          <div class="item">5</div>
+          <div class="item">6</div>
+          <div class="item">7</div>
+          <div class="item">8</div>
+        </div>
+
+        <div class="code-example">
+          .conteneur {<br />
+          &nbsp;&nbsp;display: flex;<br />
+          &nbsp;&nbsp;flex-wrap: <span id="wrapCode">nowrap</span>;<br />
+          }
+        </div>
+      </section>
+
+      <section class="example">
+        <h2>7. Propriétés des éléments flex</h2>
+        <p>
+          Les éléments flex enfants peuvent aussi avoir des propriétés
+          spécifiques pour contrôler leur comportement.
+        </p>
+
+        <h3>flex-grow</h3>
+        <p>Définit la capacité d'un élément à grossir si nécessaire.</p>
+
+        <div class="controls">
+          <div class="control-group">
+            <label for="item1Grow">Élément 1 - flex-grow:</label>
+            <input type="range" id="item1Grow" min="0" max="3" value="0" />
+            <span id="item1GrowValue">0</span>
+          </div>
+          <div class="control-group">
+            <label for="item2Grow">Élément 2 - flex-grow:</label>
+            <input type="range" id="item2Grow" min="0" max="3" value="0" />
+            <span id="item2GrowValue">0</span>
+          </div>
+          <div class="control-group">
+            <label for="item3Grow">Élément 3 - flex-grow:</label>
+            <input type="range" id="item3Grow" min="0" max="3" value="0" />
+            <span id="item3GrowValue">0</span>
+          </div>
+        </div>
+
+        <div class="flex-container" id="flexGrowExample">
+          <div class="item" id="growItem1">1</div>
+          <div class="item" id="growItem2">2</div>
+          <div class="item" id="growItem3">3</div>
+        </div>
+
+        <div class="code-example">
+          .item1 {<br />
+          &nbsp;&nbsp;flex-grow: <span id="growCode1">0</span>;<br />
+          }<br />
+          .item2 {<br />
+          &nbsp;&nbsp;flex-grow: <span id="growCode2">0</span>;<br />
+          }<br />
+          .item3 {<br />
+          &nbsp;&nbsp;flex-grow: <span id="growCode3">0</span>;<br />
+          }
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          Flexbox est un outil puissant pour créer des layouts modernes et
+          responsives. Pratiquez ces concepts pour les maîtriser !
+        </p>
+      </footer>
+    </div>
+
+    <script>
+      // Mise à jour en temps réel des exemples
+      document
+        .getElementById("flexDirection")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("flexDirectionExample").style.flexDirection =
+            value;
+          document.getElementById("directionCode").textContent = value;
+        });
+
+      document
+        .getElementById("justifyContent")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById(
+            "justifyContentExample"
+          ).style.justifyContent = value;
+          document.getElementById("justifyCode").textContent = value;
+        });
+
+      document
+        .getElementById("alignItems")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("alignItemsExample").style.alignItems = value;
+          document.getElementById("alignCode").textContent = value;
+        });
+
+      document
+        .getElementById("flexWrap")
+        .addEventListener("change", function () {
+          const value = this.value;
+          document.getElementById("flexWrapExample").style.flexWrap = value;
+          document.getElementById("wrapCode").textContent = value;
+        });
+
+      // Contrôles pour flex-grow
+      function updateGrowValue(inputId, valueId, itemId, codeId) {
+        const value = document.getElementById(inputId).value;
+        document.getElementById(valueId).textContent = value;
+        document.getElementById(itemId).style.flexGrow = value;
+        document.getElementById(codeId).textContent = value;
+      }
+
+      document
+        .getElementById("item1Grow")
+        .addEventListener("input", function () {
+          updateGrowValue(
+            "item1Grow",
+            "item1GrowValue",
+            "growItem1",
+            "growCode1"
+          );
+        });
+
+      document
+        .getElementById("item2Grow")
+        .addEventListener("input", function () {
+          updateGrowValue(
+            "item2Grow",
+            "item2GrowValue",
+            "growItem2",
+            "growCode2"
+          );
+        });
+
+      document
+        .getElementById("item3Grow")
+        .addEventListener("input", function () {
+          updateGrowValue(
+            "item3Grow",
+            "item3GrowValue",
+            "growItem3",
+            "growCode3"
+          );
+        });
+    </script>
+  </body>
+</html>
