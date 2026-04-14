@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Fomulaire</title>
+    <style>
+      .danger {
+        background-color: red;
+      }
+      .success {
+        background-color: green;
+      }
+
+      .check {
+        width: 10px;
+        height: 10px;
+        display: inline-block;
+      }
+    </style>
+  </head>
+  <body>
+    <form method="get">
+      <div>
+        <div>
+          <label for="message">Message</label>
+          <input type="text" id="message" />
+        </div>
+        <div>
+          <label for="courriel">Votre courriel : </label>
+          <input type="email" name="courriel" id="courriel" />
+        </div>
+        <div>
+          <label for="courriel2">Vérifier votre courriel : </label>
+          <input type="email" name="courriel2" id="courriel2" />
+          <span id="courrielCheck" class="check"></span>
+        </div>
+        <div>
+          <button id="submit">Soumettre</button>
+        </div>
+      </div>
+
+      <div>
+        <p>Le message: <span id="resultat"> </span></p>
+      </div>
+    </form>
+  </body>
+  <script>
+    let inputMessage = document.querySelector("input#message");
+    let buttonSubmit = document.querySelector("#submit");
+    let spanResultat = document.querySelector("#resultat");
+
+    buttonSubmit.addEventListener("click", (event) => {
+      event.preventDefault();
+      let message = inputMessage.value;
+      spanResultat.innerText = message;
+      inputMessage.value = "";
+    });
+
+    let inputCourriel = document.querySelector("#courriel");
+    let inputCourriel2 = document.querySelector("#courriel2");
+    let spanCourielCheck = document.querySelector("#courrielCheck");
+    inputCourriel2.addEventListener("input", () => {
+      let courriel2Value = inputCourriel2.value;
+      spanCourielCheck.classList.remove("danger", "success");
+      if (courriel2Value != inputCourriel.value) {
+        spanCourielCheck.classList.add("danger");
+      } else {
+        spanCourielCheck.classList.add("success");
+      }
+    });
+  </script>
+</html>

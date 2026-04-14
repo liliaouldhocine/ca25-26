@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cours 2</title>
+    <style>
+      .test {
+        color: gold;
+        font-size: 45px;
+      }
+
+      .hidden {
+        display: none;
+      }
+    </style>
+  </head>
+  <body>
+    <div>
+      <div
+        id="toggleButton"
+        style="margin: 10px; width: 70px; background-color: lightblue"
+      >
+        toggle liste
+      </div>
+      <ul id="toDelete">
+        <li>
+          <p>Salut tout le monde</p>
+        </li>
+        <li>
+          <p>Salut tout le monde</p>
+        </li>
+      </ul>
+      <ul id="toToggle" style="background-color: bisque">
+        la liste à toggle
+        <li class="liste">
+          <a href="http://google.ca">Google</a>
+        </li>
+        <li class="liste"><a href="http://youtube.com">YouTube</a></li>
+        <li class="liste" id="premier">
+          <a href="http://cmaisonneuve.qc.ca">Collège de Maisonneuve</a>
+        </li>
+      </ul>
+      <button onclick="alert('Coucou ! ')">Click !</button><br />
+      <button id="deleteList">Supprimer première liste !</button>
+    </div>
+  </body>
+
+  <script>
+    // let li = document.querySelectorAll("#premier");
+    // let lis_classe = document.querySelectorAll(".liste");
+    // let tous_les_lis = document.querySelectorAll("li");
+    // console.log(li);
+    // console.log(lis_classe);
+    // console.log(tous_les_lis);
+
+    // li = document.querySelector("#premier");
+    // console.log(li.textContent);
+    // li.innerHTML = "<i>Test</i>";
+    // li.classList.add("test"); // remove toggle
+    let buttonToggle = document.querySelector("#toggleButton");
+    let ulToToggle = document.querySelector("#toToggle");
+    buttonToggle.addEventListener("click", () => {
+      ulToToggle.classList.toggle("hidden");
+    });
+
+    let newItem = document.createElement("li");
+    newItem.innerHTML =
+      "<a href='http://facebook.com' target='_blank'>Facebook</a>";
+    ulToToggle.appendChild(newItem);
+
+    let deleteListeButton = document.querySelector("#deleteList");
+    deleteListeButton.addEventListener("click", () => {
+      let listeToDelete = document.querySelector("#toDelete");
+      console.log(listeToDelete);
+      if (listeToDelete) listeToDelete.remove();
+    });
+  </script>
+</html>
