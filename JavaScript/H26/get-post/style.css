@@ -1,0 +1,11 @@
+label {
+  width: 170px;
+  display: inline-block;
+}
+.input-form {
+  margin-bottom: 5px;
+}
+
+.submit-form {
+  margin: 7px 0;
+}
